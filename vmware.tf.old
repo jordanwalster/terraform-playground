@@ -1,0 +1,36 @@
+provider "vsphere" {
+  user           = "${var.vsphere_user}"
+  password       = "${var.vsphere_password}"
+  vsphere_server = "${var.vsphere_server}"
+  allow_unverified_ssl = true
+}
+
+data "vsphere_datastore" "datastore" {
+  name          = "datastore1"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+data "vsphere_network" "network" {
+  name          = "public"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+resource "vsphere_virtual_machine" "vm" {
+  name             = "terraform-test"
+  datastore_id     = "datastore1"
+  num_cpus = 4
+  memory   = 4096
+
+  network_interface {
+    network_id = "${data.vsphere_network.network.id}"
+  }
+
+  disk {
+    label = "Github-Disk-1"
+    size  = 80
+  }
+  disk {
+    label = "Github-Disk-2"
+    size  = 80
+  }
+}
