@@ -19,7 +19,7 @@ sudo a2dissite 000-default.conf
 
 # If wordpress config exists (which it wont), then create file and print configuration.
 if [ ! -e "/etc/apache2/sites-available/wordpress.conf" ]; then
-  echo "Alias / /usr/share/wordpress
+  echo "Alias /blog /usr/share/wordpress
         <Directory /usr/share/wordpress>
             Options FollowSymLinks
             AllowOverride Limit Options FileInfo
